@@ -1,0 +1,27 @@
+[user]
+    useConfigOnly = true
+    name = Martin Petr
+    email = git@bodkan.net
+[color]
+	ui = true
+[alias]
+    s = status
+    a = add
+    o = checkout
+    cm = commit -m
+    ca = commit  --amend
+    d = diff
+    dc = diff --cached
+    b = branch
+    p = push
+    lg = log --oneline --decorate --graph
+    l = log
+[core]
+    editor = vim
+    fileMode = false
+[push]
+    default = matching
+[init]
+    defaultBranch = main
+[credential]
+    helper = cache

@@ -1,0 +1,13 @@
+{
+    "jobs_tab_visibility": "shown",
+    "default_project_location": "~/UCPH/racimolab",
+    "new_proj_git_init": true,
+    "source_with_echo": true,
+    "save_workspace": "never",
+    "load_workspace": false,
+    "initial_working_directory": "~",
+    "python_project_environment_automatic_activate": false,
+    "pdf_previewer": "none",
+    "posix_terminal_shell": "bash",
+    "continue_comments_on_newline": true
+}
