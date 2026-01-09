@@ -1,6 +1,6 @@
 {
     "jobs_tab_visibility": "shown",
-    "default_project_location": "~/UCPH/racimolab",
+    "default_project_location": "/private/tmp",
     "new_proj_git_init": true,
     "source_with_echo": true,
     "save_workspace": "never",
