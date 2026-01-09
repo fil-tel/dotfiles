@@ -1,0 +1,199 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" General settings
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let mapleader=" "
+
+set history=500
+
+syntax enable
+filetype plugin on
+filetype indent on
+
+" auto read when a file is changed from the outside
+set autoread
+autocmd FocusGained,BufEnter * silent! checktime
+
+" number of lines to the cursor when moving vertically using j/k
+set scrolloff=5
+
+set number relativenumber
+
+set wildmenu
+set wildmode=longest:list,full
+set wildignore=*.o,*~,*.pyc
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+
+set ruler
+
+set cmdheight=1
+
+set hidden
+
+set backspace=eol,start,indent
+
+set whichwrap+=<,>,h,l
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+" show partial commands as they are typed
+set showcmd
+
+" show highlight of matching brackets
+set showmatch
+
+" how many tenths of a second to blink when matching brackets
+set matchtime=2
+
+set novisualbell
+
+" how long to wait for further keys
+set timeoutlen=500
+
+" encoding displayed
+set encoding=utf8
+" encoding written
+set fileencoding=utf-8
+
+" always show the status line
+set laststatus=2
+
+set nobackup
+set nowritebackup
+set noswapfile
+
+set wrap
+
+" automatically generate tags file for given filetypes
+autocmd BufWritePost *.py,*.R,*.Rmd silent! !ctags . &
+
+" save undo trees in files
+set undofile
+set undodir=~/.vim/undo
+set undolevels=10000
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Custom commands and shortcuts
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" :W is a sudo save
+command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
+
+nnoremap <leader>n :set number! relativenumber!<cr>
+nnoremap <leader>m :set relativenumber!<cr>
+
+nnoremap <leader>h :set hlsearch!<cr>
+
+" pressing * or # searches for the current visual selection
+vnoremap <silent> * :<C-u>call SelectionAction('')<cr>/<C-R>=@/<cr><cr>
+vnoremap <silent> # :<C-u>call SelectionAction('')<cr>?<C-R>=@/<cr><cr>
+
+" vimgrep for visual selection
+vnoremap <silent> <leader>g :call SelectionAction('vimgrep')<CR>
+" replace for visual selection
+vnoremap <silent> <leader>r :call SelectionAction('replace')<CR>
+
+nnoremap <leader>q :botright copen<cr>
+nnoremap <leader>Q :clist<cr>
+nnoremap ]q :cnext<cr>
+nnoremap [q :cprevious<cr>
+
+nnoremap <leader>w :set wrap!<cr>
+
+nnoremap <leader>E :edit $HOME/.vimrc<cr>
+nnoremap <leader>S :source $HOME/.vimrc<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tabs and indentation
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" use spaces instead of tabs
+set expandtab
+
+" pressing TAB respects context
+set smarttab
+
+" one TAB is four characters wide for everything...
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+" ... except R files
+autocmd FileType r :setlocal sw=2 ts=2 sts=2 
+
+set autoindent
+set smartindent
+
+" break lines at word boundaries
+set linebreak
+
+" return to last edit position when opening files
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Windows, buffers, tabs
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" quick jump to a buffer
+nnoremap <leader>bl :ls<cr>:b<space>
+
+" quick jump to the previous buffer
+nnoremap <leader><tab> <c-^>
+
+" quick jump to a buffer
+nnoremap <leader>bo :browse oldfiles<cr>
+
+" close the current buffer
+nnoremap <leader>bx :bdelete<cr>
+
+" moving between buffers
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprevious<cr>
+
+" managing tabs
+nnoremap <leader>te :tabedit<space>
+nnoremap <leader>tc :tabnew<cr>
+nnoremap <leader>tx :tabclose<cr>
+
+" moving between tabs
+nnoremap ]t :tabnext<cr>
+nnoremap [t :tabprevious<cr>
+
+" toggle between the current and the last accessed tab
+let g:lasttab = 1
+nnoremap <leader><bs> :exe "tabn ".g:lasttab<cr>
+autocmd TabLeave * let g:lasttab = tabpagenr()
+
+" if a buffer is already open in another window/tab, switch to it
+set switchbuf=useopen,usetab,newtab
+" always show tabline
+set showtabline=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Helper functions
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Feed a given string to the command line
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction
+
+" Select visually the word under cursor
+function! SelectionAction(action) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:action == 'vimgrep'
+        call CmdLine("vimgrep '" . l:pattern . "' " )
+    elseif a:action == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
