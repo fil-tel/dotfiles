@@ -137,3 +137,11 @@ unset __conda_setup
 
 alias kuvpn='sudo openconnect -u ghk844 vpn.ku.dk'
 alias rcomp01='ssh ghk844@racimocomp01fl'
+
+export PS1="\h:\[\e[32m\]\w\[\e[m\]\[\e[31m\] \[\e[m\] \n\\$ "
+
+if [[ -f /.dockerenv ]]; then
+    export PS1="\h:\[\e[32m\]\w\[\e[m\]\[\e[31m\] \[\e[m\] \n[CONTAINER] \\$ "
+else
+    export PS1="\h:\[\e[32m\]\w\[\e[m\]\[\e[31m\] \[\e[m\] \n\\$ "
+fi
