@@ -1,4 +1,39 @@
 {
+    "panes": {
+        "quadrants": [
+            "Console",
+            "TabSet1",
+            "Source",
+            "TabSet2"
+        ],
+        "tabSet1": [
+            "Plots",
+            "Presentation"
+        ],
+        "tabSet2": [
+            "Environment",
+            "Files",
+            "Help",
+            "Build",
+            "VCS",
+            "Viewer",
+            "Presentations"
+        ],
+        "hiddenTabSet": [
+            "History",
+            "Connections",
+            "Packages",
+            "Tutorial"
+        ],
+        "console_left_on_top": true,
+        "console_right_on_top": true,
+        "additional_source_columns": 0,
+        "sidebar": [
+            "Chat"
+        ],
+        "sidebar_visible": false,
+        "sidebar_location": "right"
+    },
     "jobs_tab_visibility": "shown",
     "default_project_location": "/private/tmp",
     "new_proj_git_init": true,
